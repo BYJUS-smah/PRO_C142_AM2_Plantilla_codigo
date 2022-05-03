@@ -4,10 +4,10 @@ from bs4 import BeautifulSoup
 import time
 import pandas as pd
 
-# NASA Exoplanet URL
+# Enlace a NASA Exoplanet
 START_URL = "https://exoplanets.nasa.gov/exoplanet-catalog/"
 
-# Webdriver
+# Controlador web
 browser = webdriver.Chrome("D:/Setup/chromedriver_win32/chromedriver.exe")
 browser.get(START_URL)
 
@@ -22,13 +22,13 @@ def scrape():
 
             soup = BeautifulSoup(browser.page_source, "html.parser")
 
-            # Check page number    
+            # Verificar el número de página
             current_page_num = int(soup.find_all("input", attrs={"class", "page_num"})[0].get("value"))
 
-            ## ADD CODE HERE ##
+            ## AGREGAR CÓDIGO AQUÍ ##
 
 
-            ## ADD CODE HERE ##
+            ## AGREGAR CÓDIGO AQUÍ ##
 
         for ul_tag in soup.find_all("ul", attrs={"class", "exoplanet"}):
             li_tags = ul_tag.find_all("li")
@@ -42,27 +42,27 @@ def scrape():
                     except:
                         temp_list.append("")
 
-            # Get Hyperlink Tag
+            # Obtener la etiqueta del hipervínculo
             
-            ## ADD CODE HERE ##
+            ## AGREGAR CÓDIGO AQUÍ ##
 
-            ## ADD CODE HERE ##
+            ## AGREGAR CÓDIGO AQUÍ ##
             
             planets_data.append(temp_list)
 
         browser.find_element(By.XPATH, value='//*[@id="primary_column"]/footer/div/div/div/nav/span[2]/a').click()
 
-        print(f"Page {i} scraping completed")
+        print(f"Extracción de datos de la página {i} completado")
 
 
-# Calling Method
+# Llamar al método
 scrape()
 
-# Define Header
+# Definir los encabezados
 headers = ["name", "light_years_from_earth", "planet_mass", "stellar_magnitude", "discovery_date", "hyperlink"]
 
-# Define pandas DataFrame 
+# Definir el dataframe de Pandas
 planet_df_1 = pd.DataFrame(planets_data, columns=headers)
 
-# Convert to CSV
+# Convertir a CSV
 planet_df_1.to_csv('updated_scraped_data.csv',index=True, index_label="id")
